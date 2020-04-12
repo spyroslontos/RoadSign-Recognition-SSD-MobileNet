@@ -50,7 +50,7 @@ item {
 
 item {
   id:  11
-  name:  'No passing for vechiles over 3.5 metric tons'
+  name:  'No passing for vehicles over 3.5 metric tons'
 }
 
 item {
@@ -75,12 +75,12 @@ item {
 
 item {
   id:  16
-  name:  'No vechiles'
+  name:  'No vehicles'
 }
 
 item {
   id:  17
-  name:  'Vechiles over 3.5 metric tons prohibited'
+  name:  'Vehicles over 3.5 metric tons prohibited'
 }
 
 item {
@@ -210,6 +210,6 @@ item {
 
 item {
   id:  43
-  name:  'End of no passing by vechiles over 3.5 metric tons'
+  name:  'End of no passing by vehicles over 3.5 metric tons'
 }
 

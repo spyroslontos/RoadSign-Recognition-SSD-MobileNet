@@ -28,7 +28,7 @@ def labelMaker(classId):
     if classId == '9':
         return 'No passing'
     if classId == '10':
-        return 'No passing for vechiles over 3.5 metric tons'
+        return 'No passing for vehicles over 3.5 metric tons'
     if classId == '11':
         return 'Right-of-way at the next intersection'
     if classId == '12':
@@ -92,7 +92,7 @@ def labelMaker(classId):
     if classId == '41':
         return 'End of no passing'
     if classId == '42':
-        return 'End of no passing by vechiles over 3.5 metric tons'
+        return 'End of no passing by vehicles over 3.5 metric tons'
 
 
 os.chdir('test')
@@ -108,15 +108,15 @@ with open('GT-final_test.csv') as csvfile:
         width = row[1]
         height = row[2]
         label = labelMaker(row[7])
-        xmin = row[3]
         ymin = row[4]
-        xmax = row[5]
+        xmin = row[3]
         ymax = row[6]
+        xmax = row[5]
 
-        # print(filename, width, height, label, xmin, ymin, xmax, ymax)
+        # print(filename, width, height, label, ymin, xmin, ymax, xmax)
 
         # Store each line in a list
-        value = filename, width, height, label, xmin, ymin, xmax, ymax
+        value = filename, width, height, label, ymin, xmin, ymax, xmax
         csv_list.append(value)
 
 # Shuffle the list to improve testing/training
@@ -136,7 +136,7 @@ print('Successfully converted ppms to pngs')
 os.remove('GT-final_test.csv')
 os.chdir('..')
 
-column_name = ['filename', 'width', 'height', 'class', 'xmin', 'ymin', 'xmax', 'ymax']
+column_name = ['filename', 'width', 'height', 'class', 'ymin', 'xmin', 'ymax', 'xmax']
 csv_df = pd.DataFrame(csv_list, columns=column_name)
 csv_df.to_csv('test_labels.csv', index=None)
 print('Successfully created the test_labels csv')

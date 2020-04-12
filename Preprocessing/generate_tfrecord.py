@@ -49,7 +49,7 @@ def class_text_to_int(row_label):
         return 9
     if row_label == 'No passing':
         return 10
-    if row_label == 'No passing for vechiles over 3.5 metric tons':
+    if row_label == 'No passing for vehicles over 3.5 metric tons':
         return 11
     if row_label == 'Right-of-way at the next intersection':
         return 12
@@ -59,9 +59,9 @@ def class_text_to_int(row_label):
         return 14
     if row_label == 'Stop':
         return 15
-    if row_label == 'No vechiles':
+    if row_label == 'No vehicles':
         return 16
-    if row_label == 'Vechiles over 3.5 metric tons prohibited':
+    if row_label == 'Vehicles over 3.5 metric tons prohibited':
         return 17
     if row_label == 'No entry':
         return 18
@@ -113,7 +113,7 @@ def class_text_to_int(row_label):
         return 41
     if row_label == 'End of no passing':
         return 42
-    if row_label == 'End of no passing by vechiles over 3.5 metric tons':
+    if row_label == 'End of no passing by vehicles over 3.5 metric tons':
         return 43
     else:
         return 0
@@ -134,32 +134,32 @@ def create_tf_example(group, path):
 
     filename = group.filename.encode('utf8')
     image_format = b'png'
-    xmins = []
-    xmaxs = []
     ymins = []
+    xmins = []
     ymaxs = []
+    xmaxs = []
     classes_text = []
     classes = []
 
     for index, row in group.object.iterrows():
-        xmins.append(row['xmin'] / width)
-        xmaxs.append(row['xmax'] / width)
         ymins.append(row['ymin'] / height)
+        xmins.append(row['xmin'] / width)
         ymaxs.append(row['ymax'] / height)
+        xmaxs.append(row['xmax'] / width)
         classes_text.append(row['class'].encode('utf8'))
         classes.append(class_text_to_int(row['class']))
 
     tf_example = tf.train.Example(features=tf.train.Features(feature={
-        'image/height': dataset_util.int64_feature(height),
         'image/width': dataset_util.int64_feature(width),
+        'image/height': dataset_util.int64_feature(height),
         'image/filename': dataset_util.bytes_feature(filename),
         'image/source_id': dataset_util.bytes_feature(filename),
         'image/encoded': dataset_util.bytes_feature(encoded_png),
         'image/format': dataset_util.bytes_feature(image_format),
-        'image/object/bbox/xmin': dataset_util.float_list_feature(xmins),
-        'image/object/bbox/xmax': dataset_util.float_list_feature(xmaxs),
         'image/object/bbox/ymin': dataset_util.float_list_feature(ymins),
+        'image/object/bbox/xmin': dataset_util.float_list_feature(xmins),
         'image/object/bbox/ymax': dataset_util.float_list_feature(ymaxs),
+        'image/object/bbox/xmax': dataset_util.float_list_feature(xmaxs),
         'image/object/class/text': dataset_util.bytes_list_feature(classes_text),
         'image/object/class/label': dataset_util.int64_list_feature(classes),
     }))

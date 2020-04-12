@@ -30,7 +30,7 @@ def labelMaker(classId):
     if classId == '9':
         return 'No passing'
     if classId == '10':
-        return 'No passing for vechiles over 3.5 metric tons'
+        return 'No passing for vehicles over 3.5 metric tons'
     if classId == '11':
         return 'Right-of-way at the next intersection'
     if classId == '12':
@@ -94,18 +94,18 @@ def labelMaker(classId):
     if classId == '41':
         return 'End of no passing'
     if classId == '42':
-        return 'End of no passing by vechiles over 3.5 metric tons'
+        return 'End of no passing by vehicles over 3.5 metric tons'
 
 
 os.chdir('train')
 parentDirectory = os.getcwd()
 
-# Convering the images to pngs and grouping them in the same folder
+# Converting the images to pngs and grouping them in the same folder
 # Grouping all of the csvs in the same folder
 for folder in os.listdir(os.getcwd()):
     os.chdir(folder)
 
-    # Change the images from .ppm to .png and rename by adding their classId in the beggining
+    # Change the images from .ppm to .png and rename by adding their classId in the beginning
     # (renaming is necessary due to filenames being the same in the different class folders
     for ppmfile in glob.glob('*.ppm'):
 
@@ -141,13 +141,13 @@ for oldfile in glob.glob('*.csv'):
             width = row[1]
             height = row[2]
             label = labelMaker(row[7])
-            xmin = row[3]
             ymin = row[4]
-            xmax = row[5]
+            xmin = row[3]
             ymax = row[6]
+            xmax = row[5]
 
-            # print(filename, width, height, label, xmin, ymin, xmax, ymax)
-            value = filename, width, height, label, xmin, ymin, xmax, ymax
+            # print(filename, width, height, label, ymin, xmin, ymax, xmax)
+            value = filename, width, height, label, ymin, xmin, ymax, xmax
             csv_list.append(value)
 
     os.remove(oldfile)
@@ -157,7 +157,7 @@ random.shuffle(csv_list)
 
 os.chdir('..')
 
-column_name = ['filename', 'width', 'height', 'class', 'xmin', 'ymin', 'xmax', 'ymax']
+column_name = ['filename', 'width', 'height', 'class', 'ymin', 'xmin', 'ymax', 'xmax']
 csv_df = pd.DataFrame(csv_list, columns=column_name)
 csv_df.to_csv('train_labels.csv', index=None)
 print('Successfully merged the CSVs and created the train_labels csv')
