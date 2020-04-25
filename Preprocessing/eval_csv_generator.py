@@ -6,7 +6,6 @@ import glob
 import cv2
 import pandas as pd
 
-
 # changes from classId to the name of the label
 def labelMaker(classId):
     if classId == '1':
@@ -37,64 +36,29 @@ def labelMaker(classId):
         return 'Keep right'
 
 classIDList = []
-folderIDList = []
 # Gets the 13 class IDs which we will use
 with open('labels.csv', 'r') as currentfile:
     reader = csv.reader(currentfile)
     next(reader)
     for row in reader:
         classIDList.append(row[0])
-        folderIDList.append(row[0].zfill(5))
 
-os.chdir('train')
 parentDirectory = os.getcwd()
-
-# Converting the images to pngs and grouping them in the same folder
-# Grouping all of the csvs in the same folder
-for folder in os.listdir(os.getcwd()):
-    if folder in folderIDList:
-
-        os.chdir(folder)
-
-        # Change the images from .ppm to .png and rename by adding their classId in the beginning
-        # (renaming is necessary due to filenames being the same in the different class folders
-        for ppmfile in glob.glob('*.ppm'):
-
-            i = cv2.imread(ppmfile)
-            os.chdir('..')
-            cv2.imwrite(folder+'_'+ppmfile.split('.')[0]+'.png', i)
-            os.chdir(folder)
-            os.remove(ppmfile)
-
-        # Grouping all of the csvs in the same folder
-        for csvfile in glob.glob('*.csv'):
-            print('Moved: ', csvfile)
-            shutil.move(csvfile, parentDirectory)
-
-        os.chdir('..')
-        print('Removed directory: ', folder)
-        os.removedirs(folder)
-
-    else:
-        print('Removed directory: ', folder)
-        shutil.rmtree(folder)
-
-print('Successfully converted ppms to pngs with their class rename')
-print('Successfully moved the csvs to their parent directory')
-print('Successfully discarded the unwanted classes')
+os.chdir('eval')
 
 csv_list = []
+discardedImagesList = []
 # Retrieves the information for each image from the csv file
 # and stores the image names which we will discard as they are not part of the 13 classes we want
-for oldfile in glob.glob('*.csv'):
-    with open(oldfile) as csvfile:
-        readCSV = csv.reader(csvfile, delimiter=';')
-        next(readCSV)
+with open('GT-final_test.csv') as csvfile:
+    readCSV = csv.reader(csvfile, delimiter=';')
+    next(readCSV)
 
-        for row in readCSV:
-            classID = row[7].zfill(5)
+    for row in readCSV:
+        if row[7] in classIDList:
+
             firstPart = row[0].split('.')[0]
-            filename = classID + '_' + firstPart + '.png'
+            filename = firstPart + '.png'
             width = row[1]
             height = row[2]
             label = labelMaker(row[7])
@@ -104,17 +68,44 @@ for oldfile in glob.glob('*.csv'):
             xmax = row[5]
 
             # print(filename, width, height, label, ymin, xmin, ymax, xmax)
+
+            # Store each line in a list
             value = filename, width, height, label, ymin, xmin, ymax, xmax
             csv_list.append(value)
 
-    os.remove(oldfile)
+        else:
+            filename = row[0]
+            discardedImagesList.append(filename)
 
-# Shuffle the list to improve testing/training
+# Removes the discarded images
+for image in discardedImagesList:
+    os.remove(image)
+
+# Change the images from .ppm to .png
+for ppmfile in glob.glob('*.ppm'):
+
+    i = cv2.imread(ppmfile)
+    cv2.imwrite(ppmfile.split('.')[0]+'.png', i)
+    os.remove(ppmfile)
+
+print('Successfully converted ppms to pngs')
+
+# Shuffle the list to improve evaluation/training
 random.shuffle(csv_list)
 
+# Randomly picks 50 images and moves them to the test folder
+# These images will not be used in training
+destination = os.path.join(parentDirectory, 'test')
+for i in range(50):
+    choice = random.choice(csv_list)
+    shutil.move(choice[0], destination)
+    csv_list.remove(choice)
+
+# Removes the csv file that we will not need
+os.remove('GT-final_test.csv')
 os.chdir('..')
 
 column_name = ['filename', 'width', 'height', 'class', 'ymin', 'xmin', 'ymax', 'xmax']
 csv_df = pd.DataFrame(csv_list, columns=column_name)
-csv_df.to_csv('train_labels.csv', index=None)
-print('Successfully merged the CSVs and created the train_labels csv')
+csv_df.to_csv('eval_labels.csv', index=None)
+print('Successfully created the eval_labels csv')
