@@ -1,5 +1,7 @@
 # CM3203-Road-Sign-Detection-Code
 
-Dissertation Version Control for Road Sign Detection and Recognition
+Dissertation Version Control for Road Sign Detection and Recognition using deep learning Techniques
 
-Preprocessing contains the pre-processing steps to create the tf records used for training and evaluation. It does not use all 43 classes found withing the German Traffic Sign Database (GTSDB) but instead trimmed to just 13 classes. These 13 classes are the ones containing the most individual training and evaluation images. This results in more accurate training results and creates a more generalized model.
+Four Google Colab notebooks which can be used for training, evaluation and testing purposes.
+
+Processing contains steps, python scripts and a labels csv file that can be used to process the German Traffic Sign Recognition Benchmark (GTSRB) Dataset. It does not use all 43 classes found within GTSRB but is instead trimmed to just 13 classes. These 13 classes are the ones containing the higest number of training and evaluation images.
