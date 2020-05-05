@@ -6,6 +6,7 @@ import glob
 import cv2
 import pandas as pd
 
+
 # changes from classId to the name of the label
 def labelMaker(classId):
     if classId == '1':
@@ -34,6 +35,7 @@ def labelMaker(classId):
         return 'Road work'
     if classId == '38':
         return 'Keep right'
+
 
 classIDList = []
 # Gets the 13 class IDs which we will use
@@ -67,8 +69,6 @@ with open('GT-final_test.csv') as csvfile:
             ymax = row[6]
             xmax = row[5]
 
-            # print(filename, width, height, label, ymin, xmin, ymax, xmax)
-
             # Store each line in a list
             value = filename, width, height, label, ymin, xmin, ymax, xmax
             eval_csv_list.append(value)
@@ -93,7 +93,7 @@ print('Successfully converted ppms to pngs')
 # Shuffle the list to improve evaluation/training
 random.shuffle(eval_csv_list)
 
-# Randomly picks 50 images and moves them to the test folder
+# Randomly picks 150 images and moves them to the test folder
 # These images will not be used in training
 test_csv_list = []
 destination = os.path.join(parentDirectory, 'test')
