@@ -53,9 +53,7 @@ parentDirectory = os.getcwd()
 # Grouping all of the csvs in the same folder
 for folder in os.listdir(os.getcwd()):
     if folder in folderIDList:
-
         os.chdir(folder)
-
         # Change the images from .ppm to .png and rename by adding their classId in the beginning
         # (renaming is necessary due to filenames being the same in the different class folders
         for ppmfile in glob.glob('*.ppm'):
@@ -68,16 +66,17 @@ for folder in os.listdir(os.getcwd()):
 
         # Grouping all of the csvs in the same folder
         for csvfile in glob.glob('*.csv'):
-            print('Moved: ', csvfile)
             shutil.move(csvfile, parentDirectory)
+            print('Moved: ', csvfile)
 
         os.chdir('..')
-        print('Removed directory: ', folder)
         os.removedirs(folder)
+        print('Removed directory: ', folder)
+
 
     else:
-        print('Removed directory: ', folder)
         shutil.rmtree(folder)
+        print('Removed directory: ', folder)
 
 print('Successfully converted ppms to pngs with their class rename')
 print('Successfully moved the csvs to their parent directory')
@@ -109,9 +108,8 @@ for oldfile in glob.glob('*.csv'):
 
     os.remove(oldfile)
 
-# Shuffle the list to improve testing/training
+# Shuffle the list
 random.shuffle(csv_list)
-
 os.chdir('..')
 
 column_name = ['filename', 'width', 'height', 'class', 'ymin', 'xmin', 'ymax', 'xmax']

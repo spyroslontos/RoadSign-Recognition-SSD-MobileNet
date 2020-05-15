@@ -15,5 +15,4 @@ with open('labels.csv', 'r') as currentfile:
             label_map.write('}\n')
             label_map.write('\n')
 
-
 print('Successfully created the label map')

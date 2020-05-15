@@ -6,7 +6,7 @@ Usage:
 
   # Create test data:
   python generate_tfrecord.py --csv_input=eval_labels.csv --image_dir=eval --output_path=eval.record
-"""
+# """
 from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
@@ -27,7 +27,6 @@ flags.DEFINE_string('image_dir', '', 'Path to images')
 FLAGS = flags.FLAGS
 
 
-# TO-DO replace this with label map
 def class_text_to_int(row_label):
     if row_label == 'Speed limit (30km/h)':
         return 1

@@ -90,7 +90,7 @@ for ppmfile in glob.glob('*.ppm'):
 
 print('Successfully converted ppms to pngs')
 
-# Shuffle the list to improve evaluation/training
+# Shuffle the list
 random.shuffle(eval_csv_list)
 
 # Randomly picks 150 images and moves them to the test folder
