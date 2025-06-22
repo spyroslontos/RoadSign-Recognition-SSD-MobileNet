@@ -6,7 +6,7 @@ This project implements a real-time traffic sign detection and classification sy
 
 Leveraging TensorFlow’s Python API, the German Traffic Sign Recognition Benchmark (GTSRB) dataset is processed and reduced from 43 to 13 key classes, focusing on the most frequent and relevant road signs for robust model training and evaluation.
 
-📄 **[Full Dissertation Report (PDF)](./Bsc_Dissertation_Traffic_Signs.pdf)**
+📄 **[Full Dissertation Report (PDF)](./BSc_Dissertation_Traffic_Signs.pdf)**
 
 ---
 
