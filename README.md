@@ -47,7 +47,8 @@ The SSD MobileNet V2 model achieved optimal performance for real-time applicatio
 
 1. Follow the preprocessing instructions in [Preprocessing/README.md](./Preprocessing/README.md)
 2. Use the provided Jupyter notebooks for training and inference
-3. Access trained models and configurations via the [Google Drive repository](https://drive.google.com/drive/folders/1_YZfCh16viMh7m30xI_waKZYIsWaBfzU?usp=sharing)
+3. Pre-trained COCO weights for SSD MobileNet V2 are available through the TensorFlow Object Detection Model Zoo
+4. ⚠️ Note: Trained SSD MobileNet V2 models from this project are no longer distributed
 
 ---
 
